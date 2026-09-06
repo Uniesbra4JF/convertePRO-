@@ -4,7 +4,6 @@
  */
 import './css/theme.css';
 import './css/components.css';
-import { Filesystem, Directory } from '@capacitor/filesystem';
 import { imagesToPdf, pdfToPng, createZipFromImages, createPdfUrl, blobToBase64 } from './services/converter.js';
 
 // ---- State ----
@@ -250,13 +249,6 @@ $('btn-save-folder').addEventListener('click', async () => {
     localStorage.setItem('cpro_storage_key', state.storageDirKey);
     localStorage.setItem('cpro_storage_path', state.storagePath);
     updateStorageLabels();
-    
-    try {
-      if (Filesystem.requestPermissions) {
-        await Filesystem.requestPermissions();
-      }
-    } catch { /* ignored on web */ }
-
     closeModal('modal-folder');
     showToast(`Pasta de destino definida: ${state.storagePath}`, 'folder_check');
   }
@@ -748,21 +740,13 @@ $('btn-png-save-all').addEventListener('click', async () => {
 
   let savedCount = 0;
   for (const p of pages) {
-    try {
-      const base64Data = await blobToBase64(p.blob);
-      const targetDir = getDirectoryEnum(state.storageDirKey);
-      const relativePath = `ConvertePRO+/${baseName}/${p.filename}`;
-
-      await Filesystem.writeFile({
-        path: relativePath,
-        data: base64Data,
-        directory: targetDir,
-        recursive: true,
-      });
-      savedCount++;
-    } catch (err) {
-      console.warn('Erro ao salvar página:', p.filename, err);
-    }
+    const url = createPdfUrl(p.blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = p.filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    savedCount++;
   }
 
   showToast(`${savedCount} imagens salvas em ${state.storagePath}/${baseName}/`, 'folder_check');
@@ -850,25 +834,8 @@ $('input-filename').addEventListener('input', (e) => {
 
 // ---- Native Storage Saver (PDF) ----
 async function savePdfToDevice(blob, filename) {
-  try {
-    const base64Data = await blobToBase64(blob);
-    const targetDir = getDirectoryEnum(state.storageDirKey);
-    const relativeFilePath = `ConvertePRO+/${filename}.pdf`;
-
-    const writeResult = await Filesystem.writeFile({
-      path: relativeFilePath,
-      data: base64Data,
-      directory: targetDir,
-      recursive: true,
-    });
-
-    state.resultLocalUri = writeResult.uri;
-    showToast(`Salvo em ${state.storagePath}/${filename}.pdf`, 'folder_check');
-    return writeResult.uri;
-  } catch (err) {
-    console.warn('Capacitor Filesystem fallback:', err);
-    return null;
-  }
+  state.resultLocalUri = null;
+  return null;
 }
 
 // ---- Conversion: Imagens → PDF ----
