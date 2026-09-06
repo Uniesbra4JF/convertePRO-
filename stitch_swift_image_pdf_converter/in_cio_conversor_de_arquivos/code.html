@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>File Converter</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "background": "#f8f9fc",
+                      "surface-tint": "#0061a4",
+                      "inverse-on-surface": "#eff1f4",
+                      "tertiary": "#3b4758",
+                      "inverse-primary": "#9fcaff",
+                      "surface-container-low": "#f2f3f6",
+                      "tertiary-fixed-dim": "#bbc7db",
+                      "primary": "#00497d",
+                      "on-secondary-fixed": "#191b22",
+                      "on-secondary-container": "#62646d",
+                      "on-background": "#191c1e",
+                      "tertiary-container": "#535f70",
+                      "on-tertiary-fixed": "#101c2b",
+                      "outline": "#717782",
+                      "on-secondary-fixed-variant": "#44474f",
+                      "surface-bright": "#f8f9fc",
+                      "primary-container": "#0061a4",
+                      "inverse-surface": "#2e3133",
+                      "surface-dim": "#d9dadd",
+                      "secondary-container": "#e1e2ec",
+                      "secondary": "#5c5e66",
+                      "tertiary-fixed": "#d7e3f8",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "primary-fixed-dim": "#9fcaff",
+                      "surface-container": "#edeef1",
+                      "surface-container-highest": "#e1e2e5",
+                      "on-primary-fixed-variant": "#00497d",
+                      "secondary-fixed": "#e1e2ec",
+                      "on-surface-variant": "#414750",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#e7e8eb",
+                      "on-primary-container": "#c0dbff",
+                      "on-surface": "#191c1e",
+                      "surface": "#f8f9fc",
+                      "outline-variant": "#c1c7d2",
+                      "surface-variant": "#e1e2e5",
+                      "on-primary-fixed": "#001d36",
+                      "on-tertiary-fixed-variant": "#3c4858",
+                      "on-tertiary-container": "#cdd9ed",
+                      "secondary-fixed-dim": "#c5c6d0",
+                      "primary-fixed": "#d1e4ff",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "gutter": "12px",
+                      "stack-lg": "24px",
+                      "margin-tablet": "24px",
+                      "margin-mobile": "16px",
+                      "stack-sm": "4px",
+                      "stack-md": "16px"
+              },
+              "fontFamily": {
+                      "label-lg": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.1px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md-mobile": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.5px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-margin-mobile h-16 w-full z-50 bg-surface text-primary font-headline-sm text-headline-sm font-headline-md-mobile text-headline-md-mobile font-bold docked full-width top-0 flat no shadows sticky">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-100 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">File Converter</h1>
+<button class="p-2 -mr-2 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-100 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 px-margin-mobile pt-stack-lg pb-24 overflow-y-auto">
+<!-- Conversion Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-stack-lg">
+<!-- Card 1 -->
+<button class="flex flex-col items-center justify-center p-stack-lg bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow duration-200 active:scale-95 border border-surface-container-low group">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-stack-md group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">camera_alt</span>
+</div>
+<h2 class="font-label-lg text-label-lg text-on-surface text-center">Foto para PDF</h2>
+</button>
+<!-- Card 2 -->
+<button class="flex flex-col items-center justify-center p-stack-lg bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow duration-200 active:scale-95 border border-surface-container-low group">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-stack-md group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">collections</span>
+</div>
+<h2 class="font-label-lg text-label-lg text-on-surface text-center">Imagens para PDF</h2>
+</button>
+<!-- Card 3 -->
+<button class="flex flex-col items-center justify-center p-stack-lg bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow duration-200 active:scale-95 border border-surface-container-low group">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-stack-md group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<h2 class="font-label-lg text-label-lg text-on-surface text-center">PDF para PNG</h2>
+</button>
+</section>
+<!-- Recent Files Section -->
+<section>
+<div class="flex justify-between items-end mb-stack-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Arquivos Recentes</h3>
+<button class="font-label-sm text-label-sm text-primary hover:underline">Ver todos</button>
+</div>
+<ul class="space-y-stack-sm">
+<!-- List Item 1 -->
+<li class="flex items-center p-base bg-surface-container-lowest rounded-lg border border-surface-container hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded bg-error-container text-on-error-container flex items-center justify-center mr-gutter flex-shrink-0">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-lg text-label-lg text-on-surface truncate">relatorio_financeiro_q3.pdf</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-xs truncate">Hoje, 10:42 AM • 2.4 MB</p>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</li>
+<!-- List Item 2 -->
+<li class="flex items-center p-base bg-surface-container-lowest rounded-lg border border-surface-container hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center mr-gutter flex-shrink-0">
+<span class="material-symbols-outlined">image</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-lg text-label-lg text-on-surface truncate">foto_documento_frente.png</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-xs truncate">Ontem, 15:20 PM • 1.1 MB</p>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</li>
+<!-- List Item 3 -->
+<li class="flex items-center p-base bg-surface-container-lowest rounded-lg border border-surface-container hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded bg-error-container text-on-error-container flex items-center justify-center mr-gutter flex-shrink-0">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-lg text-label-lg text-on-surface truncate">apresentacao_projeto.pdf</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-xs truncate">22 Out, 09:15 AM • 5.7 MB</p>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</li>
+</ul>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container shadow-sm docked full-width bottom-0 rounded-t-xl bg-surface-container">
+<!-- Active Tab: Home -->
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<!-- Inactive Tab: Recent -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high active:scale-90 transition-transform duration-200 rounded-full">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-label-sm text-label-sm">Recent</span>
+</button>
+<!-- Inactive Tab: Settings -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high active:scale-90 transition-transform duration-200 rounded-full">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</button>
+</nav>
+<!-- Desktop SideNav (Hidden on Mobile) -->
+<nav class="hidden md:flex flex-col w-64 bg-surface-container h-screen fixed left-0 top-0 border-r border-outline-variant p-4 pt-20 z-40">
+<!-- Nav items duplicated for desktop layout -->
+<button class="flex items-center justify-start bg-secondary-container text-on-secondary-container rounded-full px-5 py-3 mb-2 active:scale-95 transition-transform duration-200 w-full">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-lg text-label-lg">Home</span>
+</button>
+<button class="flex items-center justify-start text-on-surface-variant px-5 py-3 mb-2 hover:bg-surface-container-high active:scale-95 transition-transform duration-200 rounded-full w-full">
+<span class="material-symbols-outlined mr-3">history</span>
+<span class="font-label-lg text-label-lg">Recent</span>
+</button>
+<button class="flex items-center justify-start text-on-surface-variant px-5 py-3 hover:bg-surface-container-high active:scale-95 transition-transform duration-200 rounded-full w-full mt-auto">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-lg text-label-lg">Settings</span>
+</button>
+</nav>
+<!-- Adjust main content margin on desktop to account for sidenav -->
+<style>
+        @media (min-width: 768px) {
+            main {
+                margin-left: 16rem;
+            }
+            header {
+                padding-left: calc(16rem + 16px); /* Align with main content */
+            }
+        }
+    </style>
+</body></html>

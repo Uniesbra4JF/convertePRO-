@@ -1,0 +1,36 @@
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Android
+app/android/.gradle/
+app/android/build/
+app/android/app/build/
+app/android/local.properties
+app/android/.idea/
+app/android/*.iml
+app/android/app/*.iml
+
+# iOS
+app/ios/App/Pods/
+app/ios/App/Podfile.lock
+app/ios/App/.build/
+app/ios/App/build/
+app/ios/App/App.xcworkspace/xcuserdata/
+app/ios/App/App.xcodeproj/xcuserdata/
+app/ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Releases e temporários
+release-apk/
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

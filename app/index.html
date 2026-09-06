@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0061a4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ConvertePRO+" />
+  <title>ConvertePRO+</title>
+  <meta name="description" content="Converta imagens para PDF com rapidez e qualidade." />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+</head>
+<body>
+  <!-- App Shell -->
+  <div id="app" class="app-shell">
+
+    <!-- ======= SCREEN 1: HOME ======= -->
+    <div id="screen-home" class="screen active">
+      <header class="top-bar">
+        <button class="icon-btn" id="btn-menu" aria-label="Menu Principal"><span class="material-symbols-outlined">menu</span></button>
+        <h1 class="top-bar__title">ConvertePRO+</h1>
+        <button class="icon-btn" id="btn-profile" aria-label="Perfil do Usuário"><span class="material-symbols-outlined">account_circle</span></button>
+      </header>
+
+      <div style="flex:1;overflow-y:auto;">
+        <!-- Conversion Cards -->
+        <section class="card-grid">
+          <button class="card-action" id="btn-photo-pdf">
+            <div class="card-action__icon"><span class="material-symbols-outlined icon-fill">camera_alt</span></div>
+            <span class="text-label-lg" style="color:var(--md-sys-color-on-surface);text-align:center">Foto para PDF</span>
+          </button>
+          <button class="card-action" id="btn-images-pdf">
+            <div class="card-action__icon"><span class="material-symbols-outlined icon-fill">collections</span></div>
+            <span class="text-label-lg" style="color:var(--md-sys-color-on-surface);text-align:center">Imagens para PDF</span>
+          </button>
+          <button class="card-action" id="btn-pdf-png">
+            <div class="card-action__icon"><span class="material-symbols-outlined icon-fill">description</span></div>
+            <span class="text-label-lg" style="color:var(--md-sys-color-on-surface);text-align:center">PDF para PNG</span>
+          </button>
+        </section>
+
+        <!-- Recent Files -->
+        <section>
+          <div class="section-header">
+            <h3 class="text-headline-sm">Arquivos Recentes</h3>
+            <button class="btn-text text-label-sm" id="btn-view-all-recent">Ver todos</button>
+          </div>
+          <ul class="file-list" id="recent-list">
+            <!-- populated by JS -->
+          </ul>
+        </section>
+      </div>
+
+      <!-- Bottom Nav -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" id="nav-home">
+          <span class="material-symbols-outlined icon-fill">home</span>
+          <span class="text-label-sm">Home</span>
+        </button>
+        <button class="nav-item" id="nav-recent">
+          <span class="material-symbols-outlined">history</span>
+          <span class="text-label-sm">Recentes</span>
+        </button>
+        <button class="nav-item" id="nav-config">
+          <span class="material-symbols-outlined">settings</span>
+          <span class="text-label-sm">Config</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ======= SCREEN 2: SELEÇÃO DE IMAGENS ======= -->
+    <div id="screen-select" class="screen">
+      <header class="top-bar" style="border-bottom:1px solid var(--md-sys-color-surface-variant)">
+        <button class="icon-btn" id="btn-back-select" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
+        <div class="top-bar__center">
+          <h1 class="top-bar__title">Selecionar Imagens</h1>
+          <p class="top-bar__subtitle" id="select-count">0 selecionadas</p>
+        </div>
+        <button class="icon-btn" id="btn-select-more" aria-label="Mais opções"><span class="material-symbols-outlined">more_vert</span></button>
+      </header>
+
+      <!-- Barra de captura rápida multi-foto / galeria -->
+      <div class="quick-toolbar">
+        <button class="pill-btn pill-btn--primary" id="btn-quick-camera">
+          <span class="material-symbols-outlined icon-fill" style="font-size:18px">add_a_photo</span>
+          <span>Tirar Foto</span>
+        </button>
+        <button class="pill-btn" id="btn-quick-gallery">
+          <span class="material-symbols-outlined" style="font-size:18px">add_photo_alternate</span>
+          <span>Galeria</span>
+        </button>
+        <button class="pill-btn pill-btn--ghost" id="btn-quick-clear">
+          <span class="material-symbols-outlined" style="font-size:18px">delete_sweep</span>
+          <span>Limpar</span>
+        </button>
+      </div>
+
+      <div style="flex:1;overflow-y:auto;padding-bottom:100px">
+        <div class="image-grid" id="image-grid">
+          <!-- populated by JS after file pick -->
+        </div>
+      </div>
+
+      <button class="fab" id="fab-next" style="display:none">
+        <span class="text-label-lg">Próximo (<span id="fab-count">0</span>)</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+
+    <!-- ======= SCREEN 3: CONFIGURAR EXPORTAÇÃO ======= -->
+    <div id="screen-config" class="screen">
+      <header class="top-bar" style="border-bottom:1px solid var(--md-sys-color-surface-variant)">
+        <button class="icon-btn" id="btn-back-config" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
+        <h1 class="text-headline-sm" style="color:var(--md-sys-color-on-surface)">Configurações de Exportação</h1>
+        <div style="width:40px"></div>
+      </header>
+
+      <div style="flex:1;overflow-y:auto;padding:var(--space-lg) 0;display:flex;flex-direction:column;gap:var(--space-lg)">
+        <!-- Filename -->
+        <section class="config-section anim-slide-up">
+          <label class="text-label-lg config-label" for="input-filename">Nome do Arquivo</label>
+          <div class="input-wrapper">
+            <input class="config-input text-body-lg" id="input-filename" type="text" value="documento_convertido" placeholder="Digite o nome do arquivo" />
+            <span class="material-symbols-outlined">edit</span>
+          </div>
+          <p class="text-body-md config-hint">A extensão .pdf será adicionada automaticamente.</p>
+        </section>
+
+        <!-- Destination -->
+        <section class="config-section anim-slide-up delay-100">
+          <label class="text-label-lg config-label">Pasta de Destino</label>
+          <div class="folder-row">
+            <div class="folder-row__left">
+              <div class="folder-row__icon"><span class="material-symbols-outlined icon-fill">folder</span></div>
+              <div class="folder-row__texts">
+                <span class="text-label-lg" style="color:var(--md-sys-color-on-surface)">Armazenamento Local</span>
+                <span class="text-body-md" id="selected-folder-text" style="color:var(--md-sys-color-on-surface-variant)">Documentos/ConvertePRO+</span>
+              </div>
+            </div>
+            <button class="btn-text text-label-lg" id="btn-change-folder" style="color:var(--md-sys-color-primary)">Alterar</button>
+          </div>
+        </section>
+
+        <!-- Quality -->
+        <section class="config-section anim-slide-up delay-200">
+          <label class="text-label-lg config-label">Qualidade de Exportação</label>
+          <div class="seg-control" id="quality-control">
+            <button class="seg-btn active" data-quality="high">
+              <span class="material-symbols-outlined" style="font-size:18px">high_quality</span> Alta
+            </button>
+            <button class="seg-btn" data-quality="medium">
+              <span class="material-symbols-outlined" style="font-size:18px">sd</span> Média
+            </button>
+            <button class="seg-btn" data-quality="low">
+              <span class="material-symbols-outlined" style="font-size:18px">compress</span> Baixa
+            </button>
+          </div>
+          <p class="text-body-md config-hint" style="text-align:center">Alta qualidade resulta em melhor nitidez de leitura.</p>
+        </section>
+      </div>
+
+      <div class="bottom-action anim-slide-up delay-300">
+        <button class="btn-primary" id="btn-convert">
+          <span class="material-symbols-outlined icon-fill">generating_tokens</span>
+          Converter Agora
+        </button>
+      </div>
+    </div>
+
+    <!-- ======= SCREEN 4: SUCESSO (PDF GERADO) ======= -->
+    <div id="screen-success" class="screen">
+      <header class="top-bar">
+        <button class="icon-btn" id="btn-close-success" aria-label="Fechar"><span class="material-symbols-outlined">close</span></button>
+        <h1 class="text-headline-sm" style="color:var(--md-sys-color-primary);text-align:center;flex:1;padding-right:48px">Concluído</h1>
+      </header>
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--margin-mobile);max-width:440px;margin:0 auto;width:100%;gap:var(--space-lg)">
+        <div class="success-hero anim-scale-in">
+          <div class="success-circle">
+            <span class="material-symbols-outlined icon-fill">check_circle</span>
+          </div>
+          <h2 class="text-headline-mob" style="text-align:center">Arquivo convertido com sucesso!</h2>
+        </div>
+
+        <div class="file-card">
+          <div class="file-card__icon"><span class="material-symbols-outlined icon-fill">description</span></div>
+          <div style="flex:1;min-width:0">
+            <p class="text-label-lg" id="result-filename" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">documento_convertido.pdf</p>
+            <p class="text-body-md" id="result-meta" style="color:var(--md-sys-color-on-surface-variant)">— MB • PDF</p>
+          </div>
+        </div>
+
+        <div style="width:100%;display:flex;gap:16px;margin-top:16px">
+          <button class="btn-outline" id="btn-open">
+            <span class="material-symbols-outlined" style="font-size:18px">open_in_new</span> Abrir Arquivo
+          </button>
+          <button class="btn-tonal" id="btn-share">
+            <span class="material-symbols-outlined" style="font-size:18px">share</span> Compartilhar
+          </button>
+        </div>
+
+        <button class="btn-text" id="btn-new-convert">Converter outro arquivo</button>
+      </div>
+    </div>
+
+    <!-- ======= SCREEN 5: RESULTADO PDF PARA PNG ======= -->
+    <div id="screen-png-result" class="screen">
+      <header class="top-bar" style="border-bottom:1px solid var(--md-sys-color-surface-variant)">
+        <button class="icon-btn" id="btn-close-png-result" aria-label="Voltar"><span class="material-symbols-outlined">arrow_back</span></button>
+        <div class="top-bar__center">
+          <h1 class="top-bar__title">Páginas Extraídas</h1>
+          <p class="top-bar__subtitle" id="png-result-subtitle">0 páginas em PNG</p>
+        </div>
+        <button class="icon-btn" id="btn-png-share-top" aria-label="Compartilhar"><span class="material-symbols-outlined">share</span></button>
+      </header>
+
+      <div style="flex:1;overflow-y:auto;padding:var(--space-md) var(--margin-mobile) 100px;display:flex;flex-direction:column;gap:var(--space-md)">
+        <!-- Hero card com ações em lote -->
+        <div class="png-summary-card anim-scale-in">
+          <div class="png-summary-card__header">
+            <div class="png-summary-card__icon"><span class="material-symbols-outlined icon-fill">image</span></div>
+            <div style="flex:1;min-width:0">
+              <h3 class="text-label-lg" id="png-summary-title" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">documento.pdf</h3>
+              <p class="text-body-md" id="png-summary-meta" style="color:var(--md-sys-color-on-surface-variant)">0 páginas • 0 MB</p>
+            </div>
+          </div>
+          
+          <div class="png-actions-grid">
+            <button class="btn-primary" id="btn-png-save-all">
+              <span class="material-symbols-outlined">save_alt</span> Salvar Todas na Pasta
+            </button>
+            <button class="btn-tonal" id="btn-png-zip">
+              <span class="material-symbols-outlined">folder_zip</span> Baixar ZIP
+            </button>
+            <button class="btn-outline" id="btn-png-share">
+              <span class="material-symbols-outlined">share</span> Compartilhar
+            </button>
+          </div>
+        </div>
+
+        <div class="section-header" style="padding:0;margin-top:8px">
+          <h3 class="text-headline-sm" style="font-size:16px">Páginas Convertidas (PNG)</h3>
+          <span class="text-label-sm" style="color:var(--md-sys-color-primary)">Toque para ampliar / baixar</span>
+        </div>
+
+        <div class="png-pages-grid" id="png-pages-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <button class="btn-text" id="btn-png-new-convert" style="margin-top:16px">Converter outro PDF</button>
+      </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="file-input" accept="image/*" multiple hidden />
+    <input type="file" id="camera-input" accept="image/*" capture="environment" hidden />
+    <input type="file" id="pdf-input" accept="application/pdf" hidden />
+  </div>
+
+  <!-- ======= DRAWER (MENU LATERAL) ======= -->
+  <div class="drawer-backdrop" id="drawer-backdrop">
+    <div class="drawer" id="app-drawer">
+      <div class="drawer__header">
+        <div class="drawer__logo">
+          <span class="material-symbols-outlined icon-fill">picture_as_pdf</span>
+        </div>
+        <div>
+          <h2 class="text-headline-sm" style="color:var(--md-sys-color-on-surface)">ConvertePRO+</h2>
+          <p class="text-label-sm" style="color:var(--md-sys-color-primary)">Versão 1.0.0 Pro</p>
+        </div>
+      </div>
+      <div class="drawer__nav">
+        <button class="drawer__item" id="drawer-home">
+          <span class="material-symbols-outlined icon-fill">home</span>
+          <span>Início</span>
+        </button>
+        <button class="drawer__item" id="drawer-recent">
+          <span class="material-symbols-outlined">history</span>
+          <span>Histórico de Conversões</span>
+        </button>
+        <button class="drawer__item" id="drawer-storage">
+          <span class="material-symbols-outlined">folder_special</span>
+          <span>Pasta de Armazenamento</span>
+        </button>
+        <button class="drawer__item" id="drawer-theme">
+          <span class="material-symbols-outlined" id="drawer-theme-icon">dark_mode</span>
+          <span id="drawer-theme-text">Alternar Tema</span>
+        </button>
+        <button class="drawer__item" id="drawer-settings">
+          <span class="material-symbols-outlined">settings</span>
+          <span>Configurações</span>
+        </button>
+        <button class="drawer__item" id="drawer-about">
+          <span class="material-symbols-outlined">info</span>
+          <span>Sobre o ConvertePRO+</span>
+        </button>
+      </div>
+      <div class="drawer__footer">
+        ConvertePRO+ • 100% Offline & Seguro
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= MODAL: VISUALIZADOR DE IMAGEM FULLSCREEN ======= -->
+  <div class="modal-backdrop" id="modal-image-preview">
+    <div class="modal-card modal-card--fullscreen">
+      <div class="modal-header">
+        <h3 class="modal-title" id="preview-image-title">Página</h3>
+        <button class="icon-btn modal-close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="preview-image-body">
+        <img id="preview-image-src" src="" alt="Visualização" />
+      </div>
+      <div class="preview-image-actions">
+        <button class="btn-outline modal-close" style="flex:1">Fechar</button>
+        <button class="btn-primary" id="btn-preview-download" style="flex:1">
+          <span class="material-symbols-outlined">download</span> Baixar
+        </button>
+        <button class="btn-tonal icon-btn" id="btn-preview-share" aria-label="Compartilhar" style="width:48px;height:48px;border-radius:var(--radius-md)">
+          <span class="material-symbols-outlined">share</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= MODAL: PERFIL E ESTATÍSTICAS ======= -->
+  <div class="modal-backdrop" id="modal-profile">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Meu Perfil</h3>
+        <button class="icon-btn modal-close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;padding:8px 0">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--md-sys-color-primary-container);color:#fff;display:flex;align-items:center;justify-content:center">
+          <span class="material-symbols-outlined icon-fill" style="font-size:32px">account_circle</span>
+        </div>
+        <div>
+          <h4 class="text-label-lg" style="color:var(--md-sys-color-on-surface)">Usuário ConvertePRO+</h4>
+          <p class="text-body-md" style="color:var(--md-sys-color-primary)">Plano Ilimitado Grátis</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0">
+        <div style="background:var(--md-sys-color-surface-container-high);padding:14px;border-radius:var(--radius-md);text-align:center">
+          <p class="text-display-lg" id="stat-total-converted" style="color:var(--md-sys-color-primary);font-size:24px;line-height:28px">0</p>
+          <p class="text-label-sm" style="color:var(--md-sys-color-on-surface-variant)">Convertidos</p>
+        </div>
+        <div style="background:var(--md-sys-color-surface-container-high);padding:14px;border-radius:var(--radius-md);text-align:center">
+          <p class="text-display-lg" id="stat-storage-used" style="color:var(--md-sys-color-primary);font-size:24px;line-height:28px">0 MB</p>
+          <p class="text-label-sm" style="color:var(--md-sys-color-on-surface-variant)">Espaço Gerado</p>
+        </div>
+      </div>
+      <button class="btn-primary modal-close" style="margin-top:8px">OK</button>
+    </div>
+  </div>
+
+  <!-- ======= MODAL: SELEÇÃO DE ARMAZENAMENTO E PERMISSÕES ======= -->
+  <div class="modal-backdrop" id="modal-folder">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Local de Armazenamento</h3>
+        <button class="icon-btn modal-close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <p class="text-body-md" style="color:var(--md-sys-color-on-surface-variant)">Escolha onde os PDFs convertidos serão salvos no seu aparelho:</p>
+      
+      <div style="display:flex;flex-direction:column;gap:10px" id="storage-options">
+        <div class="select-option selected" data-dir="documents" data-path="Documentos/ConvertePRO+">
+          <span class="material-symbols-outlined icon-fill">folder</span>
+          <div style="flex:1">
+            <p class="text-label-lg">Documentos (Recomendado)</p>
+            <p class="text-body-md">/Documentos/ConvertePRO+/</p>
+          </div>
+          <span class="material-symbols-outlined check-icon">check</span>
+        </div>
+
+        <div class="select-option" data-dir="downloads" data-path="Downloads/ConvertePRO+">
+          <span class="material-symbols-outlined icon-fill">download</span>
+          <div style="flex:1">
+            <p class="text-label-lg">Downloads</p>
+            <p class="text-body-md">/Downloads/ConvertePRO+/</p>
+          </div>
+          <span class="material-symbols-outlined check-icon" style="display:none">check</span>
+        </div>
+
+        <div class="select-option" data-dir="pictures" data-path="Imagens/ConvertePRO+">
+          <span class="material-symbols-outlined icon-fill">image</span>
+          <div style="flex:1">
+            <p class="text-label-lg">Imagens / Fotos</p>
+            <p class="text-body-md">/Pictures/ConvertePRO+/</p>
+          </div>
+          <span class="material-symbols-outlined check-icon" style="display:none">check</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-save-folder">
+        <span class="material-symbols-outlined">check_circle</span>
+        Confirmar e Solicitar Permissão
+      </button>
+    </div>
+  </div>
+
+  <!-- ======= MODAL: HISTÓRICO COMPLETO ======= -->
+  <div class="modal-backdrop" id="modal-recent-all">
+    <div class="modal-card" style="max-height:90vh">
+      <div class="modal-header">
+        <h3 class="modal-title">Histórico de Arquivos</h3>
+        <button class="icon-btn modal-close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="input-wrapper" style="margin:4px 0">
+        <input class="config-input text-body-md" id="search-recent" type="text" placeholder="Pesquisar arquivos..." />
+        <span class="material-symbols-outlined">search</span>
+      </div>
+      <ul class="file-list" id="recent-list-full" style="max-height:320px;overflow-y:auto">
+        <!-- populated by JS -->
+      </ul>
+      <div style="display:flex;gap:12px">
+        <button class="btn-outline modal-close" style="flex:1">Fechar</button>
+        <button class="btn-tonal" id="btn-clear-recent" style="color:var(--md-sys-color-error)">
+          <span class="material-symbols-outlined" style="font-size:18px">delete_sweep</span> Limpar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= MODAL: CONFIGURAÇÕES ======= -->
+  <div class="modal-backdrop" id="modal-config-view">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Configurações</h3>
+        <button class="icon-btn modal-close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--md-sys-color-surface-variant)">
+          <div>
+            <p class="text-label-lg">Tema Escuro</p>
+            <p class="text-body-md" style="color:var(--md-sys-color-on-surface-variant)">Alternar modo visual</p>
+          </div>
+          <button class="icon-btn" id="btn-toggle-dark-mode"><span class="material-symbols-outlined" id="config-dark-icon">dark_mode</span></button>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--md-sys-color-surface-variant)">
+          <div>
+            <p class="text-label-lg">Pasta de Destino</p>
+            <p class="text-body-md" id="config-dest-label" style="color:var(--md-sys-color-on-surface-variant)">Documentos/ConvertePRO+</p>
+          </div>
+          <button class="btn-text text-label-md" id="btn-config-change-folder">Alterar</button>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0">
+          <div>
+            <p class="text-label-lg">Armazenamento em Cache</p>
+            <p class="text-body-md" style="color:var(--md-sys-color-on-surface-variant)">Limpar arquivos temporários</p>
+          </div>
+          <button class="btn-text text-label-md" id="btn-clear-cache" style="color:var(--md-sys-color-error)">Limpar</button>
+        </div>
+      </div>
+      <button class="btn-primary modal-close" style="margin-top:12px">Concluído</button>
+    </div>
+  </div>
+
+  <!-- ======= MODAL: SOBRE ======= -->
+  <div class="modal-backdrop" id="modal-about-view">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Sobre o ConvertePRO+</h3>
+        <button class="icon-btn modal-close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div style="text-align:center;padding:12px 0">
+        <div style="width:64px;height:64px;margin:0 auto 12px;background:var(--md-sys-color-primary-container);border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff">
+          <span class="material-symbols-outlined icon-fill" style="font-size:36px">picture_as_pdf</span>
+        </div>
+        <h4 class="text-headline-sm" style="color:var(--md-sys-color-on-surface)">ConvertePRO+</h4>
+        <p class="text-label-sm" style="color:var(--md-sys-color-primary);margin-top:4px">v1.0.0 Pro Edition</p>
+        <p class="text-body-md" style="color:var(--md-sys-color-on-surface-variant);margin-top:12px;line-height:1.5">
+          Aplicativo nativo para conversão veloz e segura de imagens para PDF e PDF para PNG, funcionando totalmente offline e preservando sua privacidade.
+        </p>
+      </div>
+      <button class="btn-primary modal-close">Fechar</button>
+    </div>
+  </div>
+
+  <!-- ======= DROPDOWN: ITEM RECENTE ======= -->
+  <div class="dropdown-menu" id="recent-item-menu">
+    <button class="dropdown-item" id="menu-item-open">
+      <span class="material-symbols-outlined" style="font-size:18px">open_in_new</span> Abrir
+    </button>
+    <button class="dropdown-item" id="menu-item-share">
+      <span class="material-symbols-outlined" style="font-size:18px">share</span> Compartilhar
+    </button>
+    <button class="dropdown-item dropdown-item--danger" id="menu-item-delete">
+      <span class="material-symbols-outlined" style="font-size:18px">delete</span> Excluir do Histórico
+    </button>
+  </div>
+
+  <!-- ======= DROPDOWN: OPÇÕES DE SELEÇÃO ======= -->
+  <div class="dropdown-menu" id="select-actions-menu">
+    <button class="dropdown-item" id="action-select-all">
+      <span class="material-symbols-outlined" style="font-size:18px">select_all</span> Selecionar Todas
+    </button>
+    <button class="dropdown-item" id="action-deselect-all">
+      <span class="material-symbols-outlined" style="font-size:18px">deselect</span> Desmarcar Todas
+    </button>
+    <button class="dropdown-item" id="action-add-more">
+      <span class="material-symbols-outlined" style="font-size:18px">add_photo_alternate</span> Adicionar Mais
+    </button>
+  </div>
+
+  <!-- Progress overlay -->
+  <div class="progress-overlay" id="progress-overlay">
+    <div class="progress-card">
+      <span class="material-symbols-outlined icon-fill" style="font-size:40px;color:var(--md-sys-color-primary)">generating_tokens</span>
+      <p class="text-label-lg" id="progress-label">Convertendo...</p>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <p class="text-body-md" id="progress-percent" style="color:var(--md-sys-color-on-surface-variant)">0%</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

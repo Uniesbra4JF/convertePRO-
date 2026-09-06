@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Selecionar Imagens</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fc",
+                        "surface-tint": "#0061a4",
+                        "inverse-on-surface": "#eff1f4",
+                        "tertiary": "#3b4758",
+                        "inverse-primary": "#9fcaff",
+                        "surface-container-low": "#f2f3f6",
+                        "tertiary-fixed-dim": "#bbc7db",
+                        "primary": "#00497d",
+                        "on-secondary-fixed": "#191b22",
+                        "on-secondary-container": "#62646d",
+                        "on-background": "#191c1e",
+                        "tertiary-container": "#535f70",
+                        "on-tertiary-fixed": "#101c2b",
+                        "outline": "#717782",
+                        "on-secondary-fixed-variant": "#44474f",
+                        "surface-bright": "#f8f9fc",
+                        "primary-container": "#0061a4",
+                        "inverse-surface": "#2e3133",
+                        "surface-dim": "#d9dadd",
+                        "secondary-container": "#e1e2ec",
+                        "secondary": "#5c5e66",
+                        "tertiary-fixed": "#d7e3f8",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#9fcaff",
+                        "surface-container": "#edeef1",
+                        "surface-container-highest": "#e1e2e5",
+                        "on-primary-fixed-variant": "#00497d",
+                        "secondary-fixed": "#e1e2ec",
+                        "on-surface-variant": "#414750",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e7e8eb",
+                        "on-primary-container": "#c0dbff",
+                        "on-surface": "#191c1e",
+                        "surface": "#f8f9fc",
+                        "outline-variant": "#c1c7d2",
+                        "surface-variant": "#e1e2e5",
+                        "on-primary-fixed": "#001d36",
+                        "on-tertiary-fixed-variant": "#3c4858",
+                        "on-tertiary-container": "#cdd9ed",
+                        "secondary-fixed-dim": "#c5c6d0",
+                        "primary-fixed": "#d1e4ff",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "gutter": "12px",
+                        "stack-lg": "24px",
+                        "margin-tablet": "24px",
+                        "margin-mobile": "16px",
+                        "stack-sm": "4px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md-mobile": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Checkbox styling */
+        .selection-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col antialiased">
+<!-- Top App Bar -->
+<header class="bg-surface dark:bg-background flex justify-between items-center px-margin-mobile h-16 w-full z-50 sticky top-0 flat no shadows">
+<button aria-label="Go back" class="text-primary dark:text-primary-fixed p-2 -ml-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors active:scale-95 duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex-1 flex flex-col px-4">
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary dark:text-primary-fixed">Selecionar Imagens</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">3 selecionadas</p>
+</div>
+<button aria-label="More options" class="text-on-surface-variant dark:text-on-secondary-container p-2 -mr-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors active:scale-95 duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full px-base py-base overflow-y-auto pb-[100px]">
+<!-- Image Grid -->
+<div class="grid grid-cols-3 gap-base md:grid-cols-4 lg:grid-cols-6">
+<!-- Item 1: Selected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm ring-4 ring-primary-container ring-inset transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A modern office workspace viewed from above. The scene shows a clean wooden desk with a sleek silver laptop, a ceramic cup of black coffee, and a minimalistic notebook. Soft, natural sunlight streams in from a nearby window, casting gentle shadows. The aesthetic is clean, professional, and bright, fitting a productivity app context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp-NLMx_XAJ8GfjjeLR6tuhWEKSaCaC15f1NuZBNCY26YMsvdbBlXCFMLHpZvUf4xklz-KiXSB3jVMCP4UTShF2LjmWEpRJI4xwMfq1vgHnHxOM2fEmosOWsasB1UJmngEPHFIGaqXhyp1XRRLVD1hYABfCFYAVjvlMupsxmPhs1w0EBIC9F2pt9wSRECxnLLs3fsrKjY-WUhEa8AyB5FHig6hMZPdw0kcFu0bmYA1XYojC7zwsvSeCQ"/>
+<div class="absolute inset-0 selection-overlay"></div>
+<div class="absolute top-2 left-2 bg-primary-container rounded-full w-6 h-6 flex items-center justify-center border-2 border-white shadow-sm">
+<span class="material-symbols-outlined filled text-on-primary text-[16px]">check</span>
+</div>
+</div>
+<!-- Item 2: Unselected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm hover:opacity-90 transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A high-quality close-up of a succulent plant in a modern white ceramic pot. The plant has plump, vibrant green leaves with slightly reddish tips. It sits on a light-colored wooden shelf against a stark white wall. The lighting is bright and even, highlighting the textures of the plant and pot, suitable for a clean, modern interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEWVP0EDaii0F8haVkIJe-FhaGA0StC1S1LPR7PoFUjJjcQPhQWfsstr_4zUQR2eOmgJZe_UsKInsmQeBeYgHe5s2Xz4oBpiw-nud5s_WwbpdLJYrtpx4UQZrCkCp5v5UjluvPDYRS36fuqN1WWVnZFllm3rLItYgRlrX4YJ2Z_T01kgEx-S_hjdbkl9cCxHLgMGaJePRcwDtxjBICKNYJ-UpzqBx6nPBG3bcOwdqn1nZWa6VyaDv5tw"/>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-white shadow-sm opacity-80 group-hover:opacity-100 bg-black/20"></div>
+</div>
+<!-- Item 3: Selected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm ring-4 ring-primary-container ring-inset transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A sweeping landscape photograph of a calm, misty morning over a still lake. The water reflects the soft, pastel hues of the early dawn sky—pale blues, soft pinks, and faint yellows. Distant mountains are shrouded in thin fog. The mood is tranquil and serene, providing a calming visual break in a utility application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBoe_jXxSv0RW8HKWLh3VdkGsdKXZ1GsKarBQqoDj3q9zV1W7S2pNG4Q2nTUNj6wGBdmUBsZdleVFgV2EUv1a2_uzDURLDZbCQLvm8CU8gBt-H-oNIfw4tBjF05y3rI-FCqyG87G7F-CnDfNmpdWnLgeQglZ024smlOAcT9RySksmzjbNgm9Vg8i89sXOCn6kbL-x7BStqX3Co0h45qrZRpzl7eGPU57YpSdZgyMtlU8NIfoqtU1KcYw"/>
+<div class="absolute inset-0 selection-overlay"></div>
+<div class="absolute top-2 left-2 bg-primary-container rounded-full w-6 h-6 flex items-center justify-center border-2 border-white shadow-sm">
+<span class="material-symbols-outlined filled text-on-primary text-[16px]">check</span>
+</div>
+</div>
+<!-- Item 4: Unselected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm hover:opacity-90 transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A vibrant architectural shot of a modern city building facade. The building features a repetitive pattern of glass windows reflecting a bright blue sky with a few fluffy white clouds. The angles are sharp and the composition is highly geometric. The bright, clear daylight enhances the crisp, professional corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-iWHkJXUe2XmdyJtIncmjVAaJ_04WRwHpNhJp_ukN1_ERESzMbvXJTJG7kFpBaMfmm6U4Gm1vRD0jGvTnLPL65_OGFzTsM2k2obkQNOwRHOk8Mgwje971d1MbmBBUQaDf6CyuhMSY6qs4Maq734dMPqMjI7R8Rlh8oMugAHyjpMWUcvRvXTFNNtUdZ3JiJ8zYEq61uVsgZMklAx2sfNaDdcqf7F1xOxhSZetF7mqCfWrMn7QrClNQPw"/>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-white shadow-sm opacity-80 group-hover:opacity-100 bg-black/20"></div>
+</div>
+<!-- Item 5: Selected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm ring-4 ring-primary-container ring-inset transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="An abstract macro photograph of folded white paper. The soft, diffused lighting creates gentle gradients of light gray and pure white, highlighting the smooth curves and sharp edges of the paper folds. It serves as a subtle, minimalist background image that conveys cleanliness, organization, and a modern design sensibility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYxSP-JEaSvc3Bb2k-dcXJ7Sc15U3wvqzQ4hVIq6nL7djPv9IukciNRqEOZqsFsfvaZAuA7gN-_WxVAWpf3Zj5A2Ri6pIsnnoOqfRoSEWLu_v5kYetMxPkesSm-nga0a6ZbWd-uRdwjn-F8UbVwfdPKMOc3NTwewvvw85vqvx8_0pp4E9Kb0EMEJZ9LLk4DBGCo7INm86x8LbZwubbqcEJW-c503-Zza2LjSgVWHZha2Hd-xkDOcSw3g"/>
+<div class="absolute inset-0 selection-overlay"></div>
+<div class="absolute top-2 left-2 bg-primary-container rounded-full w-6 h-6 flex items-center justify-center border-2 border-white shadow-sm">
+<span class="material-symbols-outlined filled text-on-primary text-[16px]">check</span>
+</div>
+</div>
+<!-- Item 6: Unselected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm hover:opacity-90 transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A neatly organized flat lay of travel essentials on a clean white surface. The arrangement includes a sleek black smartphone, a minimalist leather passport holder, a pair of wire-rimmed sunglasses, and a metallic pen. The items are perfectly aligned with generous white space around them. The lighting is bright and flat, creating a clinical yet elegant look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb5azsV62rla9AetjWHuv1OgZsOaDd71y05uv-1LgZBSB7WdBZrq3c2GD-lhe-h98YTtbhSmfAHJPD3ueeXPnVHJJLwK1z0AWc1WSbsDQc3oFDBzZh6u70mrSOV0eyIOBAgIim_p1aniAuLbj7Bn0dDq9yNXQdHlPArXXwes335dT5qCsTJkf-jR8q51gGh2Xtxvshh_Iv9JJQbdVjgq3rrFuPoNsZnJsRV442Hvx4FjITNBoTi85k-Q"/>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-white shadow-sm opacity-80 group-hover:opacity-100 bg-black/20"></div>
+</div>
+<!-- Item 7: Unselected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm hover:opacity-90 transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A close up shot of a cup of latte art sitting on a wooden saucer. The latte art is a detailed fern leaf design in the white milk foam atop rich brown espresso. The background is a soft, out-of-focus cafe setting. The lighting is warm and inviting, suggesting a morning routine before starting work." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjMkpzr3iyKc0EmSbYb5gCocS6fuhd171SyYOq-MKi05fX_NtwClhLjAEHWzTCh-NRsVdLnSlatEPyaXMdhUtYYmbSvYnS9vxi1uCnViG165-P5y9479sGO25VqLsP5mEO9XmojqMzGVe9LMNajDZovhpllD5jgetaFsIA0vtOSipnsLpZvC-uJRq0yQt2ZLc7YKgXCRpS4R-JhCrvJGyBioZTlfvLOEESqqvRsaBJnAAGgOwsjtpyng"/>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-white shadow-sm opacity-80 group-hover:opacity-100 bg-black/20"></div>
+</div>
+<!-- Item 8: Unselected -->
+<div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer group shadow-sm hover:opacity-90 transition-all duration-200 transform active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A minimalist photograph of a single white ceramic bowl resting on an empty, light-colored wooden dining table. The wall behind is painted a stark white. Natural light from the left creates a soft shadow stretching to the right. The image conveys emptiness, simplicity, and a strict adherence to modern, functional aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQRa7Pk-SIHsw5fr_axqhLEyZyU5h22HEnxnMtebBdcfIVDhf3x0vHCBcZ2490-Tl-SogWqqHormMZLXSO19Zh6Viak6yXspf77SZcVZbUL8qNkAV5ERQAe53bFVvIs0S1j7Faam0IsQUxC0P6G0G4890nKH2dot1hQSYY1cYb8LLqQ-QpFnA5JUf-BW7ka1-6CuriFm4YYjzI2imaEt49d_mYBnb55XDIbZAvL-eHq-sByJTYILomTg"/>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-white shadow-sm opacity-80 group-hover:opacity-100 bg-black/20"></div>
+</div>
+<!-- Item 9: Unselected -->
+<div class="relative aspect-square bg-surface-container-low rounded-lg overflow-hidden cursor-pointer group shadow-sm flex items-center justify-center hover:bg-surface-container transition-all duration-200 transform active:scale-95">
+<span class="material-symbols-outlined text-outline text-4xl">image</span>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-outline shadow-sm opacity-80 group-hover:opacity-100 bg-transparent"></div>
+</div>
+<!-- Item 10: Unselected -->
+<div class="relative aspect-square bg-surface-container-low rounded-lg overflow-hidden cursor-pointer group shadow-sm flex items-center justify-center hover:bg-surface-container transition-all duration-200 transform active:scale-95">
+<span class="material-symbols-outlined text-outline text-4xl">image</span>
+<div class="absolute inset-0 selection-overlay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-2 left-2 rounded-full w-6 h-6 border-2 border-outline shadow-sm opacity-80 group-hover:opacity-100 bg-transparent"></div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-margin-mobile right-margin-mobile z-50">
+<button class="bg-primary-container text-on-primary-container hover:bg-[#00497d] hover:text-white transition-all duration-200 shadow-lg hover:shadow-xl rounded-[16px] px-6 py-4 flex items-center gap-2 transform active:scale-95">
+<span class="font-label-lg text-label-lg whitespace-nowrap">Próximo (3)</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</body></html>
