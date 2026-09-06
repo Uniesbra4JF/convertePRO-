@@ -9,8 +9,9 @@
   <meta name="apple-mobile-web-app-title" content="ConvertePRO+" />
   <title>ConvertePRO+</title>
   <meta name="description" content="Converta imagens para PDF com rapidez e qualidade." />
-  <link rel="icon" type="image/png" href="/logo.png" />
-  <link rel="apple-touch-icon" href="/logo.png" />
+  <link rel="icon" type="image/png" href="./logo.png" />
+  <link rel="apple-touch-icon" href="./logo.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
 </head>
 <body>
   <!-- App Shell -->
@@ -519,6 +520,13 @@
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="./src/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>

@@ -29,6 +29,7 @@ app/ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
 
 # Releases e temporários
 release-apk/
+release-ios/
 *.log
 .DS_Store
 Thumbs.db
