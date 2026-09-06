@@ -4,7 +4,6 @@
  */
 import './css/theme.css';
 import './css/components.css';
-import { Share } from '@capacitor/share';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { imagesToPdf, pdfToPng, createZipFromImages, createPdfUrl, blobToBase64 } from './services/converter.js';
 
@@ -410,14 +409,15 @@ $('menu-item-share').addEventListener('click', async () => {
   const item = list[state.selectedRecentIndex];
   closeAllDropdowns();
   if (item) {
-    try {
-      await Share.share({
-        title: item.name,
-        text: `Arquivo: ${item.name}`,
-        url: item.uri || undefined,
-        dialogTitle: 'Compartilhar Arquivo',
-      });
-    } catch {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: item.name,
+          text: `Arquivo: ${item.name}`,
+          url: item.uri || undefined,
+        });
+      } catch { /* usuário cancelou */ }
+    } else {
       showToast('Compartilhamento acionado', 'share');
     }
   }
@@ -933,30 +933,26 @@ $('btn-open').addEventListener('click', () => {
 $('btn-share').addEventListener('click', async () => {
   if (!state.resultBlob) return;
 
-  // 1. Tentar Capacitor Share nativo usando a URI do arquivo salvo
-  try {
-    await Share.share({
-      title: state.filename,
-      text: 'PDF criado com ConvertePRO+',
-      url: state.resultLocalUri || undefined,
-      dialogTitle: 'Compartilhar PDF',
-    });
-    return;
-  } catch (nativeErr) {
-    console.warn('Capacitor Share tentará Web Share API:', nativeErr);
-  }
-
-  // 2. Web Share API fallback
   if (navigator.share) {
     try {
       const file = new File([state.resultBlob], state.filename + '.pdf', { type: 'application/pdf' });
-      await navigator.share({
-        files: [file],
-        title: state.filename,
-        text: 'Documento PDF gerado pelo ConvertePRO+',
-      });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: state.filename,
+          text: 'Documento PDF gerado pelo ConvertePRO+',
+        });
+      } else {
+        await navigator.share({
+          title: state.filename,
+          text: 'Documento PDF gerado pelo ConvertePRO+',
+          url: state.resultLocalUri || undefined,
+        });
+      }
       return;
     } catch { /* cancelado pelo usuário */ }
+  } else {
+    showToast('Compartilhamento não suportado neste navegador', 'info');
   }
 
   // 3. Fallback final: Download automático
